@@ -7,3 +7,6 @@
 .idea/
 .vscode/
 .DS_Store
+
+# Local agent notes, never committed
+CLAUDE.md
