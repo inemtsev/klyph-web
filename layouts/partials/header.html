@@ -1,6 +1,6 @@
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="brand" href="{{ "/" | relURL }}" aria-label="klyph home">
+    <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="klyph home">
       <img src="{{ "img/kip/wave.png" | relURL }}" alt="" width="44" height="44">
       <span class="brand__name">klyph</span>
     </a>
@@ -13,7 +13,7 @@
       {{- end }}
     </nav>
     <div class="header-tools">
-      <a class="xp" href="{{ "/quest/" | relURL }}" title="Your XP. It's saved in this browser only.">
+      <a class="xp" href="{{ "quest/" | relURL }}" title="Your XP. It's saved in this browser only.">
         <span class="xp__level" data-xp-level>Lv 1</span>
         <span class="xp__body">
           <span class="xp__title" data-xp-title>Pebble</span>
