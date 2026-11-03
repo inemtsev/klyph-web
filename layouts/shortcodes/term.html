@@ -1,0 +1,9 @@
+{{- /*
+  Links a game dev word to its page in /words/, with a hover tip.
+  {{< term "sprite" >}}  or  {{< term "sprite" "sprites" >}} for other link text.
+*/ -}}
+{{- $id := .Get 0 }}
+{{- $page := site.GetPage (printf "/words/%s" $id) }}
+{{- if not $page }}{{ errorf "term: no page /words/%s (used in %s)" $id .Page.File.Path }}{{ end }}
+<a class="term" href="{{ $page.RelPermalink }}" data-tip="{{ $page.Params.summary | plainify }}">{{ .Get 1 | default ($page.Params.term | default ($page.LinkTitle | lower)) | .Page.RenderString }}</a>
+{{- /* trim */ -}}

@@ -1,0 +1,3 @@
+{{- /* One tab inside {{< tabs >}}. */ -}}
+{{- $content := .Inner | .Page.RenderString (dict "display" "block") }}
+{{- .Parent.Store.Add "tabs" (slice (dict "name" (.Get 0) "content" $content)) }}

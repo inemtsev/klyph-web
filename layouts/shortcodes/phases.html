@@ -1,0 +1,20 @@
+{{- /*
+  The frame loop as a row of blocks. {{< phases "UPDATE" >}} lights one (or more, comma separated).
+*/ -}}
+{{- $on := split (.Get 0 | default "") "," }}
+<figure class="phases" aria-label="klyph's phases, in order">
+  <div class="phases__once">
+    <span class="phase phase--once{{ if in $on "STARTUP" }} is-on{{ end }}"><b>STARTUP</b><small>once, at the start</small></span>
+  </div>
+  <div class="phases__loop">
+    <span class="phases__label">every frame, many times a second ↻</span>
+    <span class="phase phase--input{{ if in $on "INPUT" }} is-on{{ end }}"><b>INPUT</b><small>read keys</small></span>
+    <span class="phase phase--fixed{{ if in $on "FIXED_UPDATE" }} is-on{{ end }}"><b>FIXED_UPDATE</b><small>steady physics ticks</small></span>
+    <span class="phase phase--update{{ if in $on "UPDATE" }} is-on{{ end }}"><b>UPDATE</b><small>game rules</small></span>
+    <span class="phase phase--late{{ if in $on "LATE_UPDATE" }} is-on{{ end }}"><b>LATE_UPDATE</b><small>camera, follow-ups</small></span>
+    <span class="phase phase--render{{ if in $on "RENDER" }} is-on{{ end }}"><b>RENDER</b><small>draw!</small></span>
+  </div>
+  <div class="phases__once">
+    <span class="phase phase--once{{ if in $on "SHUTDOWN" }} is-on{{ end }}"><b>SHUTDOWN</b><small>once, at the end</small></span>
+  </div>
+</figure>

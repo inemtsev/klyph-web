@@ -1,0 +1,23 @@
+{{- /*
+  A callout from Kip the mascot.
+  {{< kip tip >}}...{{< /kip >}}   kinds: tip, oops, yay, think, hi, code
+  An optional second argument replaces the heading.
+*/ -}}
+{{- $kind := .Get 0 | default "tip" }}
+{{- $kinds := dict
+  "tip"   (dict "pose" "point"  "title" "Kip's tip")
+  "oops"  (dict "pose" "oops"   "title" "Watch out!")
+  "yay"   (dict "pose" "cheer"  "title" "You did it!")
+  "think" (dict "pose" "think"  "title" "Think about it")
+  "hi"    (dict "pose" "wave"   "title" "Hi, I'm Kip!")
+  "code"  (dict "pose" "laptop" "title" "Try it yourself")
+}}
+{{- $k := index $kinds $kind }}
+{{- if not $k }}{{ errorf "kip: unknown kind %q in %s" $kind .Page.File.Path }}{{ end }}
+<aside class="kip kip--{{ $kind }}">
+  <img class="kip__img" src="{{ printf "img/kip/%s.png" $k.pose | relURL }}" alt="" width="88" height="88" loading="lazy">
+  <div class="kip__body">
+    <p class="kip__title">{{ .Get 1 | default $k.title }}</p>
+    {{ .Inner | .Page.RenderString (dict "display" "block") }}
+  </div>
+</aside>

@@ -1,0 +1,38 @@
+---
+title: "Input"
+summary: "Everything the player does to control the game: keys, mouse, touchpad and gamepads."
+image: "img/words/input.png"
+---
+
+## Picture it
+
+The game asks, every frame: "What is the player pressing **right now**?" That's input. Games usually care about three moments: a button is **down**, was **just pressed** this frame, or was **just released**.
+
+## In klyph
+
+All of it is in `app.input`, updated at the start of each frame.
+
+```kotlin
+val keys = app.input.keyboard
+keys.isDown(Scancode.SPACE)          // held down right now
+keys.isJustPressed(Scancode.SPACE)   // went down this frame: jump, shoot, select
+keys.isJustReleased(Scancode.SPACE)  // came up this frame
+
+// -1, 0 or 1, for moving left and right:
+val dx = app.input.axis(Scancode.A, Scancode.D)
+
+// The mouse:
+val mouse = app.input.mouse
+mouse.worldPosition                     // where it points in the world
+mouse.isJustPressed(MouseButton.LEFT)   // clicked
+
+// Gamepads:
+for (pad in app.input.gamepads) {
+    val stickX = pad.leftStick.x               // -1 (left) to 1 (right)
+    if (pad.isJustPressed(GamepadButton.SOUTH)) jump()   // A on Xbox, ✕ on PlayStation
+}
+```
+
+{{< kip tip "Scancodes are positions" >}}
+`Scancode.W` means "the key where W is on a US keyboard". On a French keyboard, that's Z. That's what you want for {{< keys "W" "A" "S" "D" >}} movement: the keys stay in the same *place* for everyone.
+{{< /kip >}}

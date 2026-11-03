@@ -1,0 +1,19 @@
+{{- /*
+  Tabs, the first one open:
+  {{< tabs >}}{{< tab "Windows" >}}...{{< /tab >}}{{< tab "macOS" >}}...{{< /tab >}}{{< /tabs >}}
+  The choice is remembered, so every tab group on the site opens on the same OS.
+*/ -}}
+{{- $_ := .Inner }}
+{{- $id := printf "tabs-%d" .Ordinal }}
+<div class="tabs" data-tabs>
+  <div class="tabs__list" role="tablist">
+    {{- range $i, $t := .Store.Get "tabs" }}
+    <button class="tabs__tab" type="button" role="tab" id="{{ $id }}-tab-{{ $i }}" aria-controls="{{ $id }}-panel-{{ $i }}" aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}" data-tab="{{ $t.name }}">{{ $t.name }}</button>
+    {{- end }}
+  </div>
+  {{- range $i, $t := .Store.Get "tabs" }}
+  <div class="tabs__panel" role="tabpanel" id="{{ $id }}-panel-{{ $i }}" aria-labelledby="{{ $id }}-tab-{{ $i }}" data-panel="{{ $t.name }}"{{ if ne $i 0 }} hidden{{ end }}>
+    {{ $t.content }}
+  </div>
+  {{- end }}
+</div>

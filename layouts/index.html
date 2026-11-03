@@ -1,0 +1,33 @@
+{{ define "main" }}
+<main id="main" class="home">
+  <section class="hero">
+    <div class="hero__text">
+      <p class="eyebrow">A 2D game engine for Kotlin</p>
+      <h1>Make your own games.<br><span class="hl">In Kotlin.</span></h1>
+      <p class="lead">{{ .Params.lead | markdownify }}</p>
+      <p class="hero__cta">
+        <a class="btn btn--big" href="{{ "/quest/" | relURL }}">▶ Start the Quest</a>
+        <a class="btn btn--ghost" href="{{ "/ideas/" | relURL }}">How klyph works</a>
+      </p>
+    </div>
+    <figure class="hero__art">
+      <img src="{{ "img/hero.jpg" | relURL }}" alt="Kip, a little mint-green block creature, waves next to a minecart catching falling gems in a torch-lit cave." width="1280" height="720">
+    </figure>
+  </section>
+
+  <section class="home-paths" aria-label="Three ways in">
+    {{- range .Params.paths }}
+    <a class="path-card" href="{{ .url | relURL }}">
+      <img src="{{ .image | relURL }}" alt="" width="120" height="120" loading="lazy">
+      <span class="path-card__title">{{ .title }}</span>
+      <span class="path-card__text">{{ .text }}</span>
+      <span class="path-card__go">{{ .go }} ▶</span>
+    </a>
+    {{- end }}
+  </section>
+
+  <div class="prose home-prose">
+    {{ .Content }}
+  </div>
+</main>
+{{ end }}

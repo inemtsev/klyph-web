@@ -1,0 +1,10 @@
+{{- /* XP a page is worth: quest steps 50, big ideas 20, game words 5, other pages none. */ -}}
+{{- $xp := 0 }}
+{{- if .IsPage }}
+  {{- if eq .Section "quest" }}{{ $xp = 50 }}
+  {{- else if eq .Section "ideas" }}{{ $xp = 20 }}
+  {{- else if eq .Section "words" }}{{ $xp = 5 }}
+  {{- end }}
+  {{- with .Params.xp }}{{ $xp = . }}{{ end }}
+{{- end }}
+{{- return $xp }}

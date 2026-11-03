@@ -1,0 +1,5 @@
+{{- /* A small challenge: {{< try >}}...{{< /try >}} */ -}}
+<aside class="try">
+  <p class="try__title">🎯 Challenge <small>optional</small></p>
+  {{ .Inner | .Page.RenderString (dict "display" "block") }}
+</aside>

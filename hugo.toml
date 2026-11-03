@@ -1,0 +1,48 @@
+baseURL = "https://inemtsev.github.io/klyph-web/"
+locale = "en-us"
+title = "klyph"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "RSS"]
+
+[params]
+  description = "Learn to make 2D games in Kotlin with klyph, one small step at a time."
+  repo = "https://github.com/inemtsev/klyph-web"
+  engineRepo = "https://github.com/inemtsev/klyph"
+  # The starter game in this repository, for checkpoint links.
+  starterTree = "https://github.com/inemtsev/klyph-web/tree/main/starter"
+  starterZip = "https://github.com/inemtsev/klyph-web/archive/refs/heads/main.zip"
+  version = "0.1.0"
+
+[markup]
+  [markup.goldmark.renderer]
+    # Lets pages use a little raw HTML, such as <kbd> for keys.
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 2
+
+[menus]
+  [[menus.main]]
+    name = "Quest"
+    pageRef = "/quest"
+    weight = 10
+  [[menus.main]]
+    name = "Big Ideas"
+    pageRef = "/ideas"
+    weight = 20
+  [[menus.main]]
+    name = "Game Words"
+    pageRef = "/words"
+    weight = 30
+  [[menus.main]]
+    name = "Cheat Sheet"
+    pageRef = "/cheat-sheet"
+    weight = 40
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+  page = ["HTML"]

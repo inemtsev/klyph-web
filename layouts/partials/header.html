@@ -1,0 +1,30 @@
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="{{ "/" | relURL }}" aria-label="klyph home">
+      <img src="{{ "img/kip/wave.png" | relURL }}" alt="" width="44" height="44">
+      <span class="brand__name">klyph</span>
+    </a>
+    <nav class="main-nav" aria-label="Main">
+      {{- $current := . }}
+      {{- range site.Menus.main }}
+        {{- $active := or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) }}
+        {{- with .Page }}{{ if and .Section (eq $current.Section .Section) }}{{ $active = true }}{{ end }}{{ end }}
+        <a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a>
+      {{- end }}
+    </nav>
+    <div class="header-tools">
+      <a class="xp" href="{{ "/quest/" | relURL }}" title="Your XP. It's saved in this browser only.">
+        <span class="xp__level" data-xp-level>Lv 1</span>
+        <span class="xp__body">
+          <span class="xp__title" data-xp-title>Pebble</span>
+          <span class="xp__bar" aria-hidden="true"><span class="xp__fill" data-xp-fill></span></span>
+        </span>
+        <span class="sr-only" data-xp-sr>Level 1, 0 XP</span>
+      </a>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch light or dark mode">
+        <svg class="icon-sun" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7 0h2v3H7zM7 13h2v3H7zM0 7h3v2H0zM13 7h3v2h-3zM2 3h2v2H2V3zm10 0h2v2h-2zM2 11h2v2H2zm10 0h2v2h-2zM5 5h6v6H5z"/></svg>
+        <svg class="icon-moon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6 1h4v1H8v1H7v2H6v4h1v2h1v1h1v1h4v1h-1v1h-2v1H6v-1H4v-1H3v-1H2v-2H1V6h1V4h1V3h1V2h2z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>

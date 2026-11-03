@@ -1,0 +1,9 @@
+{{- /*
+  Links a klyph big idea to its page in /ideas/, with a hover tip.
+  {{< idea "systems" >}}  or  {{< idea "systems" "a system" >}}
+*/ -}}
+{{- $id := .Get 0 }}
+{{- $page := site.GetPage (printf "/ideas/%s" $id) }}
+{{- if not $page }}{{ errorf "idea: no page /ideas/%s (used in %s)" $id .Page.File.Path }}{{ end }}
+<a class="idea" href="{{ $page.RelPermalink }}" data-tip="{{ $page.Params.summary | plainify }}">{{ .Get 1 | default $page.LinkTitle | .Page.RenderString }}</a>
+{{- /* trim */ -}}

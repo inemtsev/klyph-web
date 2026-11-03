@@ -1,0 +1,13 @@
+{{- /*
+  A stack of scenes, top first: {{< scenestack "pause" "play" >}}
+  The top scene runs; the ones below are frozen.
+*/ -}}
+<figure class="stack" aria-label="Scene stack, top first">
+  {{- range $i, $name := .Params }}
+  <div class="stack__scene{{ if eq $i 0 }} is-top{{ end }}">
+    <b>{{ $name }}</b>
+    <small>{{ if eq $i 0 }}▶ on top: its systems run{{ else }}❄ frozen: still drawn, systems paused{{ end }}</small>
+  </div>
+  {{- end }}
+  <figcaption>The scene stack. Only the top scene's systems run.</figcaption>
+</figure>

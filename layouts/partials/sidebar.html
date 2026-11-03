@@ -1,0 +1,24 @@
+{{- $section := .CurrentSection }}
+{{- if and $section (not $section.IsHome) }}
+<aside class="sidebar" aria-label="{{ $section.Title }} pages">
+  <details class="sidebar__box" open data-sidebar>
+    <summary class="sidebar__title">
+      <a href="{{ $section.RelPermalink }}">{{ $section.Title }}</a>
+      <span class="sidebar__count" data-section-count="{{ $section.Section }}"></span>
+    </summary>
+    <ol class="sidebar__list{{ if ne $section.Section "quest" }} sidebar__list--plain{{ end }}">
+      {{- $pages := $section.RegularPages.ByWeight }}
+      {{- if eq $section.Section "words" }}{{ $pages = $section.RegularPages.ByTitle }}{{ end }}
+      {{- range $pages }}
+      <li>
+        <a href="{{ .RelPermalink }}" data-key="{{ .RelPermalink }}"{{ if eq .RelPermalink $.RelPermalink }} aria-current="page"{{ end }}>
+          <span class="check" aria-hidden="true"></span>
+          {{- with .Params.step }}<span class="sidebar__num">{{ . }}</span>{{ end }}
+          <span>{{ .LinkTitle }}</span>
+        </a>
+      </li>
+      {{- end }}
+    </ol>
+  </details>
+</aside>
+{{- end }}

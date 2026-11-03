@@ -1,0 +1,33 @@
+{{ define "main" }}
+<main id="main" class="section-page">
+  <header class="section-hero">
+    {{- with .Params.image }}<img src="{{ . | relURL }}" alt="" width="200" height="200">{{ end }}
+    <div>
+      <h1>{{ .Title }}</h1>
+      {{- with .Params.summary }}<p class="lead">{{ . | markdownify }}</p>{{ end }}
+      <p class="section-progress" data-section-progress="{{ .Section }}" data-total="{{ len .RegularPages }}"></p>
+    </div>
+  </header>
+
+  {{- with .Content }}<div class="prose section-intro">{{ . }}</div>{{ end }}
+
+  {{- $pages := .RegularPages.ByWeight }}
+  {{- if eq .Section "words" }}{{ $pages = .RegularPages.ByTitle }}{{ end }}
+  <ol class="cards{{ if eq .Section "quest" }} cards--path{{ end }}{{ if eq .Section "words" }} cards--small{{ end }}">
+    {{- range $pages }}
+    <li>
+      <a class="card" href="{{ .RelPermalink }}" data-key="{{ .RelPermalink }}">
+        <span class="check" aria-hidden="true"></span>
+        {{- with .Params.image }}<img src="{{ . | relURL }}" alt="" width="96" height="96" loading="lazy">{{ end }}
+        <span class="card__body">
+          {{- with .Params.step }}<span class="card__step">Step {{ . }}</span>{{ end }}
+          <span class="card__title">{{ .LinkTitle }}</span>
+          {{- with .Params.summary }}<span class="card__text">{{ . | markdownify }}</span>{{ end }}
+          {{- with .Params.time }}<span class="chip">⏱ {{ . }}</span>{{ end }}
+        </span>
+      </a>
+    </li>
+    {{- end }}
+  </ol>
+</main>
+{{ end }}

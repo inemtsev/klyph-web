@@ -1,0 +1,10 @@
+{{- $lang := .Type | default "text" }}
+{{- $title := .Attributes.title }}
+<div class="code{{ with $title }} code--titled{{ end }}">
+  <div class="code__bar">
+    <span class="code__title">{{ with $title }}{{ . }}{{ else }}{{ $lang }}{{ end }}</span>
+    <button class="code__copy" type="button" data-copy>Copy</button>
+  </div>
+  {{- $opts := dict "hl_lines" (.Attributes.hl_lines | default "") }}
+  {{ transform.Highlight .Inner $lang $opts }}
+</div>

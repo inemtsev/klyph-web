@@ -1,0 +1,15 @@
+{{ define "main" }}
+{{- $hasSidebar := and .CurrentSection (not .CurrentSection.IsHome) }}
+<div class="docs{{ if not $hasSidebar }} docs--solo{{ end }}">
+  {{ partial "sidebar.html" . }}
+  <main id="main" class="docs__main">
+    <article class="page">
+      {{ partial "page-top.html" . }}
+      <div class="prose">
+        {{ .Content }}
+      </div>
+      {{ partial "page-bottom.html" . }}
+    </article>
+  </main>
+</div>
+{{ end }}

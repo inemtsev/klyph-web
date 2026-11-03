@@ -1,0 +1,33 @@
+{{- $xp := partial "xp-for.html" . }}
+{{- if gt $xp 0 }}
+<div class="done-box">
+  {{- $label := "Got it!" }}
+  {{- if eq .Section "quest" }}{{ $label = "I did it!" }}{{ end }}
+  <button class="btn btn--big btn--done" type="button" data-done data-key="{{ .RelPermalink }}" data-xp="{{ $xp }}">
+    <span class="btn--done__todo">{{ $label }} <small>+{{ $xp }} XP</small></span>
+    <span class="btn--done__done">✓ Done! <small>click to undo</small></span>
+  </button>
+</div>
+{{- end }}
+
+{{- /* Previous and next page in the section, in the same order as the sidebar. */ -}}
+{{- $pages := .CurrentSection.RegularPages.ByWeight }}
+{{- if eq .Section "words" }}{{ $pages = .CurrentSection.RegularPages.ByTitle }}{{ end }}
+{{- $prev := false }}{{ $next := false }}{{ $found := false }}
+{{- range $pages }}
+  {{- if $found }}{{ if not $next }}{{ $next = . }}{{ end }}
+  {{- else if eq .RelPermalink $.RelPermalink }}{{ $found = true }}
+  {{- else }}{{ $prev = . }}{{ end }}
+{{- end }}
+{{- if and .IsPage $found }}
+<nav class="pager" aria-label="Previous and next">
+  {{- with $prev }}
+  <a class="pager__link pager__link--prev" href="{{ .RelPermalink }}"><small>◀ Back</small><span>{{ .LinkTitle }}</span></a>
+  {{- else }}<span></span>{{ end }}
+  {{- with $next }}
+  <a class="pager__link pager__link--next" href="{{ .RelPermalink }}"><small>Next ▶</small><span>{{ .LinkTitle }}</span></a>
+  {{- else }}
+    {{- with .Params.after }}{{ with site.GetPage . }}<a class="pager__link pager__link--next" href="{{ .RelPermalink }}"><small>Next ▶</small><span>{{ .LinkTitle }}</span></a>{{ end }}{{ end }}
+  {{- end }}
+</nav>
+{{- end }}

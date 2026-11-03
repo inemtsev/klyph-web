@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale | default "en" }}">
+<head>
+  {{- partial "head.html" . }}
+</head>
+<body class="{{ if .IsHome }}is-home{{ else }}is-{{ .Section | default "page" }}{{ end }}">
+  <a class="skip-link" href="#main">Skip to the content</a>
+  {{- partial "header.html" . }}
+  {{- block "main" . }}{{ end }}
+  {{- partial "footer.html" . }}
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="{{ "js/site.js" | relURL }}" defer></script>
+</body>
+</html>

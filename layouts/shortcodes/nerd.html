@@ -1,0 +1,8 @@
+{{- /*
+  Optional deeper detail, closed by default so nobody has to read it.
+  {{< nerd "How does the engine know?" >}}...{{< /nerd >}}
+*/ -}}
+<details class="nerd">
+  <summary><img src="{{ "img/kip/think.png" | relURL }}" alt="" width="36" height="36" loading="lazy"><span><strong>Nerd corner</strong> {{ .Get 0 }}</span></summary>
+  <div class="nerd__body">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+</details>

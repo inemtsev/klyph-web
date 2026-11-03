@@ -1,0 +1,31 @@
+<header class="page-top">
+  {{- if eq .Section "quest" }}
+    {{- with .Params.step }}<p class="eyebrow">Quest · Step {{ . }} of {{ len $.CurrentSection.RegularPages }}</p>{{ end }}
+  {{- else if eq .Section "ideas" }}<p class="eyebrow">Big Idea</p>
+  {{- else if eq .Section "words" }}<p class="eyebrow">Game Dev Word</p>
+  {{- end }}
+  <div class="page-top__row">
+    <div class="page-top__text">
+      <h1>{{ .Title }}</h1>
+      <p class="chips">
+        {{- with .Params.time }}<span class="chip">⏱ {{ . }}</span>{{ end }}
+        {{- with partial "xp-for.html" . }}<span class="chip chip--xp">★ +{{ . }} XP</span>{{ end }}
+      </p>
+    </div>
+    {{- with .Params.image }}
+    <img class="page-top__art" src="{{ . | relURL }}" alt="{{ $.Params.imageAlt | default "" }}" width="160" height="160">
+    {{- end }}
+  </div>
+  {{- with .Params.summary }}
+  <div class="tldr">
+    <span class="tldr__label">In one line</span>
+    <p>{{ . | markdownify }}</p>
+  </div>
+  {{- end }}
+  {{- with .Params.learn }}
+  <div class="learn">
+    <span class="learn__label">You'll learn</span>
+    <ul>{{ range . }}<li>{{ . | markdownify }}</li>{{ end }}</ul>
+  </div>
+  {{- end }}
+</header>

@@ -1,0 +1,21 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- $title := cond .IsHome (printf "%s: make games in Kotlin" site.Title) (printf "%s · %s" .Title site.Title) }}
+<title>{{ $title }}</title>
+<meta name="description" content="{{ with .Params.summary }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ with .Params.summary }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta property="og:image" content="{{ "img/hero.png" | absURL }}">
+<meta name="theme-color" content="#19b39a">
+<link rel="icon" href="{{ "img/favicon.png" | relURL }}" type="image/png">
+<link rel="preload" href="{{ "fonts/lexend-2be22f.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/jersey10-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/code.css" | relURL }}">
+<script>
+  // Set the theme before the page paints, so it never flashes the wrong colors.
+  try {
+    var t = localStorage.getItem("klyph:theme");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {}
+</script>

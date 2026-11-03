@@ -1,0 +1,3 @@
+{{- /* {{< keys "A" "D" >}} renders keyboard keys. */ -}}
+{{- range $i, $k := .Params }}{{ if $i }} {{ end }}<kbd>{{ $k }}</kbd>{{ end }}
+{{- /* trim */ -}}
