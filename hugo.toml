@@ -1,4 +1,4 @@
-baseURL = "https://inemtsev.github.io/klyph-web/"
+baseURL = "https://klyph.eventslooped.com/"
 locale = "en-us"
 title = "klyph"
 enableRobotsTXT = true

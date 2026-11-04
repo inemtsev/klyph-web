@@ -1,6 +1,6 @@
 # Gem Miner
 
-The game you build in the [klyph Quest](https://inemtsev.github.io/klyph-web/quest/). Slide the
+The game you build in the [klyph Quest](https://klyph.eventslooped.com/quest/). Slide the
 minecart, catch the falling gems, dodge the rocks.
 
 | Key | Does |

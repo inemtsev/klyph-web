@@ -28,7 +28,7 @@ Then, from this folder:
 hugo server
 ```
 
-and open <http://localhost:1313/klyph-web/>.
+and open <http://localhost:1313/>.
 
 The starter kit download in Quest step 1 is built by CI, not by Hugo. To try it locally, build into
 a folder and zip the starter next to it:
@@ -40,10 +40,20 @@ hugo -d /tmp/klyph-web && tools/zip-starter.sh /tmp/klyph-web
 ## Publish it
 
 `.github/workflows/pages.yml` builds the site on every push and pull request and publishes `main`
-to GitHub Pages. Turn it on once in the repository's **Settings → Pages → Build and deployment →
-Source: GitHub Actions**. The site then lives at <https://inemtsev.github.io/klyph-web/>.
+to GitHub Pages (**Settings → Pages → Build and deployment → Source: GitHub Actions**). The site
+lives at <https://klyph.eventslooped.com/>, and the old <https://inemtsev.github.io/klyph-web/>
+address redirects there.
 
-For a custom domain, change `baseURL` in `hugo.toml` and add the domain in the same settings page.
+The custom domain takes three things, which must agree:
+
+- `baseURL` in `hugo.toml` is `https://klyph.eventslooped.com/`.
+- DNS for `eventslooped.com` has a CNAME record `klyph` pointing to `inemtsev.github.io`.
+- **Settings → Pages → Custom domain** is `klyph.eventslooped.com`, with **Enforce HTTPS** on.
+
+A deployment from Actions needs no `CNAME` file; GitHub ignores one. To move the site to another
+address, change the DNS record and the Pages setting first, then `baseURL`, so the build that goes
+live already has the new address. Links in the templates come from `relURL`, so the site also
+works under a subfolder if it ever moves back to one.
 
 The build runs with `--panicOnWarning`, so a deprecated setting or a link to a missing glossary page
 fails it. CI also rebuilds the starter checkpoints and fails if they changed, then zips `starter/`
