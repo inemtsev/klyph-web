@@ -14,7 +14,7 @@ Turn the sound off in a game you love. It feels flat, right? **Sound effects** t
 ```kotlin
 // Load once, at startup:
 val ding = app.assets.sound("ding.wav")    // short effect: WAV or OGG, kept in memory
-val song = app.assets.music("music.ogg")   // long track: OGG, streamed bit by bit
+val song = app.assets.musicTrack("music.ogg")   // long track: OGG, streamed bit by bit
 
 // Effects:
 app.audio.play(ding)                                // just play it

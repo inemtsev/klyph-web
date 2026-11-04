@@ -29,8 +29,9 @@ fun main() {
 | `app.input` | The keyboard, mouse and gamepads. See {{< term "input" >}}. |
 | `app.time` | How long the last frame took, and how long the game has run. See {{< term "delta" "delta time" >}}. |
 | `app.assets` | Loads pictures, sounds, music and fonts. See {{< idea "assets" >}}. |
-| `app.audio` | Plays sounds and music. See {{< term "audio" >}}. |
+| `app.audio` | Plays sounds and music. See {{< term "audio" "sound and music" >}}. |
 | `app.camera` | Which part of the world shows in the window. See {{< term "camera" >}}. |
+| `app.window` | The window itself: its size, fullscreen, the mouse cursor and screenshots. |
 | `app.canvas` | Draws pictures, boxes and text directly, during `RENDER`. |
 | `app.scenes` | The stack of screens. See {{< idea "scenes" >}}. |
 | `app.resources` | Shared game data, like the score. See {{< idea "resources" >}}. |
@@ -52,6 +53,8 @@ val config = AppConfig(
 )
 ```
 
+Wrap it in `AppConfig.fromEnvironment(config)` and you can change settings from the Terminal without touching the code, like `-Pklyph.screenshot=120:shot.png` to save a picture of frame 120. Gem Miner does this in [the last Quest step]({{< relref "/quest/11-ship-it" >}}).
+
 {{< nerd "What else can AppConfig do?" >}}
-It can turn audio off (`audio = AudioConfig(enabled = false)`), change the debug overlay key (`overlayKey`, <kbd>F3</kbd> by default), load assets from another folder (`assetRoot`), and change the collision grid size (`collisionCellSize`). You rarely need any of these.
+It can start in fullscreen (`windowMode = WindowMode.FULLSCREEN`), hide the mouse pointer (`cursor = CursorMode.HIDDEN`), quit after a number of frames (`frameLimit`), turn audio off (`audio = AudioConfig(output = AudioOutput.NONE)`), change the debug overlay key (`overlayKey`, <kbd>F3</kbd> by default), load assets from another folder (`assetRoot`), and change the collision grid size (`collisionCellSize`). You rarely need any of these. The [API reference](https://inemtsev.github.io/klyph/) lists every one.
 {{< /nerd >}}

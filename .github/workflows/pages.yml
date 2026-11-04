@@ -36,12 +36,15 @@ jobs:
       - name: Build
         run: hugo --gc --minify --panicOnWarning
 
-      # The finished game and checkpoint 09 must agree on every file the last step leaves alone.
+      # The checkpoints are cut from the finished game, so rebuilding them must change nothing.
       - name: Check starter checkpoints
         run: |
-          for f in Tuning.kt Art.kt Spawns.kt; do
-            diff -u "starter/src/nativeMain/kotlin/gemminer/$f" "starter/checkpoints/09-lives/$f"
-          done
+          python3 tools/make-checkpoints.py
+          git diff --exit-code -- starter/checkpoints
+
+      # Quest step 1 links to this zip, served from the site itself.
+      - name: Zip the starter kit
+        run: tools/zip-starter.sh public
 
       - uses: actions/upload-pages-artifact@v4
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

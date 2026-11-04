@@ -69,6 +69,15 @@ Only entities with **both** `Falling` and `Transform` are visited. `forEach` tak
 
 `Transform` ({{< term "transform" >}}), `Sprite` ({{< term "sprite" >}}), `Collider` ({{< term "collider" >}}), `ParticleEmitter` ({{< term "particles" >}}), `Text` (words in the world), `SpriteAnimation` ({{< term "spritesheet" "animations" >}}), and `Interpolated` (smooth motion with a {{< term "fixed" "fixed timestep" >}}).
 
+Two handy ones do a job on their own, with no system to write:
+
+```kotlin
+add(Lifetime, Lifetime(2.seconds))                     // destroys the entity after 2 seconds
+add(Fade, Fade(500.milliseconds, end = FadeEnd.DESTROY)) // fades its sprite or text out, then destroys it
+```
+
+Great for bullets, "+1" pop-ups and splats. (They need `import kotlin.time.Duration.Companion.seconds` and `...milliseconds`.)
+
 {{< nerd "Parents and children" >}}
 Entities can be stuck to other entities. `app.commands.setParent(child, parent)` makes the child move, turn and scale with its parent, like a hat on a head. Its `Transform` is then measured from the parent. Destroying a parent destroys its children too.
 {{< /nerd >}}

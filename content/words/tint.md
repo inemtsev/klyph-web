@@ -17,7 +17,8 @@ Sprite(art.gem, 44f, 44f, color = Color(0x3DDC84FFu)) // a green gem
 ```
 
 - Draw your picture in **white and greys** and you can tint it any color. Gem Miner has one gem picture and five colors.
-- Tinting with white, `Color.WHITE`, leaves it unchanged.
-- The last two digits are **alpha**: `...80u` makes it half see-through, `...00u` invisible. Great for fading out.
+- Tinting with white, `Color.WHITE`, leaves it unchanged. Ready-made colors include `Color.RED`, `GREEN`, `BLUE`, `YELLOW`, `CYAN`, `MAGENTA`, `GRAY` and `BLACK`.
+- The last two digits are **alpha**: `...80u` makes it half see-through, `...00u` invisible. `color.withAlpha(0.5f)` gives you any color, half see-through (`import klyph.platform.withAlpha`).
+- To fade something out smoothly, add a `Fade` component: `add(Fade, Fade(1.seconds))`.
 
 Flash something red for a moment when it gets hit, by setting its sprite's `color` and then setting it back. Classic!

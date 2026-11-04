@@ -45,9 +45,10 @@ Older distributions have no SDL3 package yet. Then you build SDL3 from source an
 
 ## 2. Download the starter kit
 
-1. Download [the klyph-web zip]({{< param "starterZip" >}}) and unzip it.
-2. Inside is a folder called **`starter`**. That's your game. Copy it somewhere easy to find, like your Desktop, and rename it `gem-miner` if you like.
-3. Open IntelliJ IDEA, choose **Open**, and pick that folder.
+{{< starter-zip >}}
+
+1. Unzip it. You get a folder called **`gem-miner`**. That's your game! Put it somewhere easy to find, like your Desktop.
+2. Open IntelliJ IDEA, choose **Open**, and pick that folder.
 
 IntelliJ spots the Gradle build and sets everything up. Give it a minute.
 

@@ -5,9 +5,11 @@ import klyph.collision.CollisionLayers
 import klyph.collision.Shape
 import klyph.entity.Commands
 import klyph.entity.Transform
+import klyph.particle.EmitterEnd
 import klyph.particle.ParticleEmitter
 import klyph.platform.Color
 import klyph.render.Sprite
+import kotlin.time.Duration.Companion.milliseconds
 
 // One function per kind of entity. They go through Commands, so they are safe to call from
 // inside a system that is looping over the world: the new entities appear after it finishes.
@@ -45,22 +47,22 @@ fun Commands.spawnRock(art: Art, x: Float, speed: Float) {
     }
 }
 
-/** A burst of sparkles of [color] at ([x], [y]). The entity removes itself after a second. */
+/** A burst of sparkles of [color] at ([x], [y]). Its entity goes away once the last sparkle has faded. */
 fun Commands.spawnSparkles(art: Art, x: Float, y: Float, color: Color) {
     spawn {
-        val burst = ParticleEmitter(art.sparkle, maxParticles = 24).apply {
+        val burst = ParticleEmitter(art.sparkle, capacity = 24).apply {
             speed = 80f..240f
-            lifetime = 0.3f..0.7f
+            lifetime = 300.milliseconds..700.milliseconds
             gravityY = 400f
+            // Each sparkle starts in the gem's color and fades to see-through on its own.
             startColor = color
-            endColor = Color(color.red, color.green, color.blue, alpha = 0f)
             startScale = 1f
             endScale = 0.2f
             layer = Tuning.LAYER_SPARKLES
+            whenEmpty = EmitterEnd.DESTROY
             emit(24)
         }
         add(Transform, Transform(x, y))
         add(ParticleEmitter, burst)
-        add(Lifetime, Lifetime(1f))
     }
 }

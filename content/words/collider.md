@@ -24,14 +24,19 @@ add(Collider, Collider(Shape.Box(96f, 40f), layers = Layers.CART, mask = Layers.
 Every frame, klyph sends an `Overlap` {{< idea "events" "event" >}} for each touching pair:
 
 ```kotlin
-app.events.forEach<Overlap> { overlap -> /* overlap.a and overlap.b touched */ }
+app.events.forEach<Overlap> { overlap ->
+    // overlap.a and overlap.b touched. Find yours, and otherThan gives you the other one.
+    if (player in overlap) hurt(overlap.otherThan(player))
+}
 ```
 
-You can also **ask** what's somewhere, like "is anything under the mouse?" (`import klyph.collision.overlaps`):
+(`in` and `otherThan` need `import klyph.collision.contains` and `import klyph.collision.otherThan`.)
+
+You can also **ask** what's somewhere, like "is anything under the mouse?" (`import klyph.collision.overlapping`):
 
 ```kotlin
 val m = app.input.mouse.worldPosition
-val hits = app.collisions.overlaps(Shape.Circle(30f), x = m.x, y = m.y, mask = Layers.FALLING)
+val hits = app.collisions.overlapping(Shape.Circle(30f), x = m.x, y = m.y, mask = Layers.FALLING)
 ```
 
 {{< kip tip "Make hitboxes a bit smaller" >}}

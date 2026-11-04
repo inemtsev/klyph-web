@@ -46,7 +46,6 @@ object GameScenes {
         addSystem(Phase.UPDATE) { app -> app.round.dropThings(app) }
         addSystem(Phase.UPDATE) { app -> fall(app) }
         addSystem(Phase.UPDATE) { app -> app.round.catchThings(app) }
-        addSystem(Phase.UPDATE) { app -> expire(app) }
         addSystem(Phase.UPDATE) { app ->
             if (app.round.lives <= 0) app.scenes.push(gameOver)
         }

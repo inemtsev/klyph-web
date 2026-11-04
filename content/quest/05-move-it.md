@@ -56,7 +56,8 @@ import klyph.platform.Scancode
 
 /** Slides the cart with A / D or the arrow keys, and keeps it on the screen. */
 fun moveCart(app: App) {
-    val direction = (app.input.axis(Scancode.LEFT, Scancode.RIGHT) + app.input.axis(Scancode.A, Scancode.D)).coerceIn(-1f, 1f)
+    val keys = app.input.keyboard
+    val direction = (keys.axis(Scancode.LEFT, Scancode.RIGHT) + keys.axis(Scancode.A, Scancode.D)).coerceIn(-1f, 1f)
     val dt = app.time.deltaSeconds
     val half = Tuning.CART_WIDTH / 2
     app.world.forEach(Cart, Transform) { _, cart, transform ->
@@ -67,7 +68,7 @@ fun moveCart(app: App) {
 
 Three new ideas in a few lines:
 
-1. **`app.input.axis(LEFT, RIGHT)`** gives `-1` while ← is held, `1` while → is held, and `0` otherwise. We add up arrows and {{< keys "A" "D" >}}, then `coerceIn` keeps it between -1 and 1. See {{< term "input" >}}.
+1. **`keys.axis(LEFT, RIGHT)`** gives `-1` while ← is held, `1` while → is held, and `0` otherwise. We add up arrows and {{< keys "A" "D" >}}, then `coerceIn` keeps it between -1 and 1. See {{< term "input" >}}.
 2. **`app.world.forEach(Cart, Transform)`** is a **query**: "give me every entity that has a `Cart` *and* a `Transform`". Rocks and gems won't have a `Cart`, so they'll never move like one.
 3. **`dt`** is {{< term "delta" "delta time" >}}: how many seconds the last frame took (about 0.016). Speed × time = distance, so the cart moves 420 units per **second**, on a slow computer or a fast one.
 

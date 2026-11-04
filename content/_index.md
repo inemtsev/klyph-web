@@ -51,6 +51,7 @@ By the end of the Quest your game has a moving cart, falling gems, sparkles, sou
 - **Tiny setup.** Your whole build file is three lines long.
 - **Fast.** Games compile to a real native program. No extra runtime to install.
 - **Windows, macOS and Linux.** Same code everywhere.
+- **Stable.** klyph 1.0 is out, and code you write for it keeps working in every 1.x release.
 
 ## Before you start
 

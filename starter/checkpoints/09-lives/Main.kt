@@ -24,7 +24,6 @@ fun main() {
         addSystem(Phase.UPDATE) { app -> app.round.dropThings(app) }
         addSystem(Phase.UPDATE) { app -> fall(app) }
         addSystem(Phase.UPDATE) { app -> app.round.catchThings(app) }
-        addSystem(Phase.UPDATE) { app -> expire(app) }
         addSystem(Phase.UPDATE) { app ->
             // For now, game over just closes the window. A real screen comes next!
             if (app.round.lives <= 0) app.quit()

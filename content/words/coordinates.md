@@ -13,6 +13,7 @@ A treasure map on graph paper. "Go 5 squares right and 3 squares down." That's *
 - **x** grows to the **right**.
 - **y** grows **down**. (Like reading a page: top to bottom.)
 - **(0, 0)** starts at the top-left of the window, until you move the {{< term "camera" >}}.
+- At the camera's starting zoom, one world unit is one **point** of the window (a "pixel" on most screens, a 2 × 2 block of tiny pixels on sharp ones).
 
 In Gem Miner the world is 800 wide and 600 tall, so the cart at y = 530 is near the bottom, and gems start at y = -44, just above the top.
 

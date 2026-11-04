@@ -38,7 +38,7 @@ The changes happen at the **end of the frame**, so the rest of the frame finishe
 
 ## Frozen, not gone
 
-When you push `pause` on top of `play`, the play scene **freezes**. Its systems stop, and its {{< term "particles" >}}, {{< term "spritesheet" "animations" >}} and {{< term "collider" "colliders" >}} stand still. But its entities are **still drawn**, so you see the game behind the pause text. Pop the pause, and it carries on exactly where it was.
+When you push `pause` on top of `play`, the play scene **freezes**. Its systems stop, and its {{< term "particles" >}}, {{< term "spritesheet" "animations" >}}, {{< term "collider" "colliders" >}}, lifetimes and fades stand still. But its entities are **still drawn**, so you see the game behind the pause text. Pop the pause, and it carries on exactly where it was.
 
 ## Scenes clean up after themselves
 

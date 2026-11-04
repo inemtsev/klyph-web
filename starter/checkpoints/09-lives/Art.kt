@@ -40,7 +40,7 @@ class Sounds(
             bonk = assets.sound("bonk.wav"),
             start = assets.sound("start.wav"),
             gameOver = assets.sound("gameover.wav"),
-            music = assets.music("music.ogg"),
+            music = assets.musicTrack("music.ogg"),
         )
     }
 }

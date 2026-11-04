@@ -23,7 +23,7 @@ On Windows: `.\gradlew run`. The first build downloads the Kotlin/Native toolcha
 few minutes.
 
 `./gradlew distribute` makes a zip in `build/distributions/` that runs on a computer without Java
-or SDL3 installed.
+or SDL3 installed. `./gradlew run -Pklyph.screenshot=120:shot.png` saves frame 120 as `shot.png`.
 
 ## What's here
 
@@ -39,4 +39,4 @@ or SDL3 installed.
 
 To catch up to a checkpoint, copy its files over the ones in `src/nativeMain/kotlin/gemminer/`.
 
-Built for klyph 0.1.0. klyph is pre-alpha, so a later version may rename things.
+Built for klyph 1.0.0. Code written for 1.0 keeps working in every 1.x release.

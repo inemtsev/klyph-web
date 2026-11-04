@@ -18,11 +18,13 @@ Cut the picture into a grid, then play the frames with a `SpriteAnimation` compo
 val boom = app.assets.spriteSheet("explosion.png", columns = 6, rows = 1)
 
 app.commands.spawn {
-    val animation = SpriteAnimation(boom, 80.milliseconds, AnimationMode.ONCE)
+    val animation = SpriteAnimation(boom, 80.milliseconds, AnimationMode.ONCE, AnimationEnd.DESTROY)
     add(Transform, Transform(x, y))
     add(Sprite, Sprite(animation.currentFrame, 96f, 96f))
     add(SpriteAnimation, animation)
 }
 ```
 
-Every frame, klyph moves the animation on and swaps the sprite's picture for you. `AnimationMode.LOOP` repeats forever; `ONCE` stops on the last frame. (`80.milliseconds` needs `import kotlin.time.Duration.Companion.milliseconds`.)
+Every frame, klyph moves the animation on and swaps the sprite's picture for you. `AnimationMode.LOOP` repeats forever; `ONCE` stops on the last frame. With `AnimationEnd.DESTROY`, a play-once animation removes its entity when it's done, which is just right for an explosion. (`80.milliseconds` needs `import kotlin.time.Duration.Companion.milliseconds`.)
+
+When a play-once animation finishes, klyph also sends an `AnimationFinished` {{< idea "events" "event" >}}, so you can start something else right then.

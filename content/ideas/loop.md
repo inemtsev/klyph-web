@@ -36,9 +36,9 @@ You don't write these, but it helps to know they happen:
 
 - **Before `INPUT`:** last frame's events are dropped and new keyboard, mouse and window events come in.
 - **After `FIXED_UPDATE`:** {{< term "collider" "collisions" >}} are checked and `Overlap` {{< idea "events" >}} are sent.
-- **Before `LATE_UPDATE`:** {{< term "particles" >}} and {{< term "spritesheet" "sprite animations" >}} move one frame on.
-- **After `RENDER`:** everything is drawn, then scene changes (push, pop, replace) take effect.
+- **After `UPDATE`:** `Lifetime` and `Fade` timers count down, then {{< term "particles" >}} and {{< term "spritesheet" "sprite animations" >}} move one frame on.
+- **After `RENDER`:** the {{< term "camera" >}} is kept inside its bounds, everything is drawn, then scene changes (push, pop, replace) take effect.
 
 {{< nerd "The whole frame, in order" >}}
-`runApp` runs STARTUP once, then each frame: drop last frame's events, refresh audio, translate platform events into `app.input` and `app.events`, toggle the overlay, INPUT, FIXED_UPDATE zero or more times, update transforms, detect collisions and publish `Overlap` events, UPDATE, advance particles, advance sprite animations, LATE_UPDATE, update transforms again, RENDER, draw sprites, text, particles and the canvas, and apply scene transitions. Commands are applied after every system. After the last frame every scene leaves the stack and SHUTDOWN runs.
+`runApp` runs STARTUP once, then each frame: drop last frame's events, refresh audio, translate platform events into `app.input` and `app.events`, toggle the overlay, INPUT, FIXED_UPDATE zero or more times, update transforms, detect collisions and publish `Overlap` events, UPDATE, count down `Lifetime` and `Fade`, advance particles, advance sprite animations (publishing `AnimationFinished`), LATE_UPDATE, update transforms again, RENDER, keep the camera inside its bounds, draw sprites, text, particles and the canvas, apply scene transitions, and quit if a frame or time limit is reached. Commands are applied after every system and after each of the engine's own steps. After the last frame every scene leaves the stack and SHUTDOWN runs.
 {{< /nerd >}}

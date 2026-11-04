@@ -2,10 +2,11 @@
   <div class="site-footer__inner">
     <img src="{{ "img/kip/laptop.png" | relURL }}" alt="" width="72" height="72" loading="lazy">
     <div>
-      <p><strong>klyph {{ site.Params.version }}</strong> is a 2D game engine for Kotlin. It's pre-alpha, so names may still change before 1.0.</p>
+      <p><strong>klyph {{ site.Params.version }}</strong> is a 2D game engine for Kotlin. Code you write for 1.0 keeps working in every 1.x release.</p>
       <p>
+        <a href="{{ site.Params.guide }}">Official guide</a> ·
+        <a href="{{ site.Params.apiReference }}">API reference</a> ·
         <a href="{{ site.Params.engineRepo }}">Engine on GitHub</a> ·
-        <a href="{{ site.Params.repo }}">This site on GitHub</a> ·
         <button class="link-btn" type="button" data-reset-progress>Reset my XP</button>
       </p>
       <p class="muted small">Your XP and checkmarks live only in this browser. Nothing is sent anywhere.</p>

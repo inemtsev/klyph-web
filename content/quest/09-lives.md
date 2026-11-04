@@ -31,10 +31,10 @@ So far, every picture came from a `Sprite` on an entity. For things that aren't 
 
 {{< phases "RENDER" >}}
 
-Add these to **`Systems.kt`** (and import `klyph.render.DrawSpace` and `klyph.text.TextAlign`):
+Add these to **`Systems.kt`** (and import `klyph.render.DrawSpace`, `klyph.text.TextAlign` and `klyph.text.TextShadow`):
 
 ```kotlin {title="Systems.kt"}
-/** Draws the cave wall picture behind everything. */
+/** Draws the cave wall picture behind everything, in the world, so it zooms with the camera. */
 fun drawCaveWall(app: App) {
     app.canvas.drawSprite(
         app.art.wall,
@@ -43,13 +43,14 @@ fun drawCaveWall(app: App) {
         width = Tuning.WORLD_WIDTH,
         height = Tuning.WORLD_HEIGHT,
         layer = Tuning.LAYER_WALL,
+        space = DrawSpace.WORLD,
     )
 }
 
-/** Draws the score and the lives in the top corners of the window. */
+/** Draws the score and the lives in the top corners of the window, with a shadow so they stand out. */
 fun Round.drawHud(app: App) {
     val font = app.assets.defaultFont
-    app.canvas.drawText(font, "GEMS $gems", x = 16f, y = 16f, scale = 3f, space = DrawSpace.SCREEN)
+    app.canvas.drawText(font, "GEMS $gems", x = 16f, y = 16f, scale = 3f, shadow = TextShadow())
     app.canvas.drawText(
         font,
         "LIVES $lives",
@@ -57,25 +58,27 @@ fun Round.drawHud(app: App) {
         y = 16f,
         scale = 3f,
         align = TextAlign.RIGHT,
-        space = DrawSpace.SCREEN,
+        shadow = TextShadow(),
     )
 }
 ```
 
-- **The wall** is drawn in **world space** (the default for pictures), so it moves and zooms with the camera, just like the cart. Its {{< term "layers" "layer" >}} is `-10`, so it's behind everything.
-- **The score** is drawn in **screen space**: measured from the window's top-left corner, so it stays put whatever the camera does. That's what you want for a {{< term "hud" "HUD" >}}.
-- `app.assets.defaultFont` is a tiny 8 × 8 {{< term "pixelart" "pixel" >}} font built into klyph, so you don't need a font file. `scale = 3f` makes it 24 tall.
+The canvas has two ways of measuring where things go:
+
+- **Screen space**, the default: measured from the window's top-left corner, so it stays put whatever the camera does. Perfect for the score and lives, the {{< term "hud" "HUD" >}}.
+- **World space**, when you pass `space = DrawSpace.WORLD`: the same units as the cart and the gems, so it moves and zooms with the camera. That's what the wall needs, so it always lines up with the cave. Its {{< term "layers" "layer" >}} is `-10`, behind everything.
+
+`app.assets.defaultFont` is a tiny 8 × 8 {{< term "pixelart" "pixel" >}} font built into klyph, so you don't need a font file. `scale = 3f` makes it 24 tall, and `shadow = TextShadow()` draws a dark copy just under it, so the words are easy to read on the busy wall.
 
 ## 3. Hook it up
 
 In **`Main.kt`**, add the two drawing systems, plus a very simple game over:
 
-```kotlin {title="Main.kt" hl_lines="6-9 12 13"}
+```kotlin {title="Main.kt" hl_lines="5-8 11 12"}
         addSystem(Phase.UPDATE) { app -> moveCart(app) }
         addSystem(Phase.UPDATE) { app -> app.round.dropThings(app) }
         addSystem(Phase.UPDATE) { app -> fall(app) }
         addSystem(Phase.UPDATE) { app -> app.round.catchThings(app) }
-        addSystem(Phase.UPDATE) { app -> expire(app) }
         addSystem(Phase.UPDATE) { app ->
             // For now, game over just closes the window. A real screen comes next!
             if (app.round.lives <= 0) app.quit()

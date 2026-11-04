@@ -3,6 +3,7 @@ package gemminer
 import klyph.app.App
 import klyph.app.deltaSeconds
 import klyph.collision.Overlap
+import klyph.collision.otherThan
 import klyph.entity.Entity
 import klyph.entity.Transform
 import klyph.input.axis
@@ -11,6 +12,7 @@ import klyph.render.DrawSpace
 import klyph.render.Sprite
 import klyph.render.lookAt
 import klyph.text.TextAlign
+import klyph.text.TextShadow
 import kotlin.math.min
 import kotlin.random.Random
 
@@ -23,7 +25,7 @@ fun fitCamera(app: App) {
     camera.lookAt(Tuning.WORLD_WIDTH / 2, Tuning.WORLD_HEIGHT / 2)
 }
 
-/** Draws the cave wall picture behind everything. */
+/** Draws the cave wall picture behind everything, in the world, so it zooms with the camera. */
 fun drawCaveWall(app: App) {
     app.canvas.drawSprite(
         app.art.wall,
@@ -32,12 +34,14 @@ fun drawCaveWall(app: App) {
         width = Tuning.WORLD_WIDTH,
         height = Tuning.WORLD_HEIGHT,
         layer = Tuning.LAYER_WALL,
+        space = DrawSpace.WORLD,
     )
 }
 
 /** Slides the cart with A / D or the arrow keys, and keeps it on the screen. */
 fun moveCart(app: App) {
-    val direction = (app.input.axis(Scancode.LEFT, Scancode.RIGHT) + app.input.axis(Scancode.A, Scancode.D)).coerceIn(-1f, 1f)
+    val keys = app.input.keyboard
+    val direction = (keys.axis(Scancode.LEFT, Scancode.RIGHT) + keys.axis(Scancode.A, Scancode.D)).coerceIn(-1f, 1f)
     val dt = app.time.deltaSeconds
     val half = Tuning.CART_WIDTH / 2
     app.world.forEach(Cart, Transform) { _, cart, transform ->
@@ -73,16 +77,16 @@ fun fall(app: App) {
 
 /** Reads the engine's Overlap events: a gem in the cart scores, a rock costs a life. */
 fun Round.catchThings(app: App) {
+    val world = app.world
     app.events.forEach<Overlap> { overlap ->
-        // The engine does not promise which entity of a pair is a, so try both ways round.
-        catchOne(app, overlap.a, overlap.b)
-        catchOne(app, overlap.b, overlap.a)
+        // One of the pair is the cart, but the engine doesn't promise which one.
+        val cart = if (world.has(overlap.a, Cart)) overlap.a else overlap.b
+        catchOne(app, overlap.otherThan(cart))
     }
 }
 
-private fun Round.catchOne(app: App, cart: Entity, thing: Entity) {
+private fun Round.catchOne(app: App, thing: Entity) {
     val world = app.world
-    if (!world.has(cart, Cart)) return
     val gem = world.getOrNull(thing, Gem)
     if (gem != null) {
         gems += gem.points
@@ -97,19 +101,10 @@ private fun Round.catchOne(app: App, cart: Entity, thing: Entity) {
     }
 }
 
-/** Counts down every Lifetime and destroys its entity when it reaches zero. */
-fun expire(app: App) {
-    val dt = app.time.deltaSeconds
-    app.world.forEach(Lifetime, Transform) { entity, life, _ ->
-        life.seconds -= dt
-        if (life.seconds <= 0f) app.commands.destroy(entity)
-    }
-}
-
-/** Draws the score and the lives in the top corners of the window. */
+/** Draws the score and the lives in the top corners of the window, with a shadow so they stand out. */
 fun Round.drawHud(app: App) {
     val font = app.assets.defaultFont
-    app.canvas.drawText(font, "GEMS $gems", x = 16f, y = 16f, scale = 3f, space = DrawSpace.SCREEN)
+    app.canvas.drawText(font, "GEMS $gems", x = 16f, y = 16f, scale = 3f, shadow = TextShadow())
     app.canvas.drawText(
         font,
         "LIVES $lives",
@@ -117,6 +112,6 @@ fun Round.drawHud(app: App) {
         y = 16f,
         scale = 3f,
         align = TextAlign.RIGHT,
-        space = DrawSpace.SCREEN,
+        shadow = TextShadow(),
     )
 }

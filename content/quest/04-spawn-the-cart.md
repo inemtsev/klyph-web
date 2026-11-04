@@ -141,7 +141,7 @@ In klyph, (0, 0) is the **top-left** corner and **y goes down**. So `y = 530` is
 
 ## 4. Point the camera
 
-The {{< term "camera" >}} decides which part of the world shows up in the window. Make **`Systems.kt`**:
+The {{< term "camera" >}} decides which part of the world shows up in the window. At zoom 1, one world unit is one point of the window, so our 800 × 600 world fills an 800 × 600 window exactly. This system keeps it fitting when you resize. Make **`Systems.kt`**:
 
 ```kotlin {title="Systems.kt"}
 package gemminer

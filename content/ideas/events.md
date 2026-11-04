@@ -34,9 +34,10 @@ if (app.events.any<GemCaught>()) shakeCamera()
 
 | Event | When |
 |---|---|
-| `Overlap` | Two {{< term "collider" "colliders" >}} touch. Has `a` and `b`, the two entities. |
+| `Overlap` | Two {{< term "collider" "colliders" >}} touch. Has `a` and `b`, the two entities; `overlap.otherThan(mine)` gives the one that isn't yours. |
+| `AnimationFinished` | A play-once {{< term "spritesheet" "animation" >}} reached its last frame. |
 | `KeyPressed`, `KeyReleased` | A key goes down or up. |
-| `MouseMoved`, `MouseButtonPressed`, `MouseWheel` | The mouse does something. |
+| `MouseMoved`, `MouseButtonPressed`, `MouseWheelScrolled` | The mouse does something. |
 | `GamepadConnected`, `GamepadDisconnected` | A controller is plugged in or out. |
 | `WindowFocusLost`, `WindowFocusGained` | The player clicks another window, or comes back. |
 | `WindowResized` | The window changes size. |

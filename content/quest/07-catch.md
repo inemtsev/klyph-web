@@ -66,21 +66,21 @@ The cart's box is a bit smaller than its picture, so a gem has to land *in* the 
 
 ## 2. Read the Overlap events
 
-Every frame, klyph checks all the colliders and sends an `Overlap` {{< idea "events" "event" >}} for each touching pair. Add this to **`Systems.kt`** (and import `klyph.collision.Overlap` and `klyph.entity.Entity`):
+Every frame, klyph checks all the colliders and sends an `Overlap` {{< idea "events" "event" >}} for each touching pair. Add this to **`Systems.kt`** (and import `klyph.collision.Overlap`, `klyph.collision.otherThan` and `klyph.entity.Entity`):
 
 ```kotlin {title="Systems.kt"}
 /** Reads the engine's Overlap events: a gem in the cart scores, a rock costs a life. */
 fun Round.catchThings(app: App) {
+    val world = app.world
     app.events.forEach<Overlap> { overlap ->
-        // The engine does not promise which entity of a pair is a, so try both ways round.
-        catchOne(app, overlap.a, overlap.b)
-        catchOne(app, overlap.b, overlap.a)
+        // One of the pair is the cart, but the engine doesn't promise which one.
+        val cart = if (world.has(overlap.a, Cart)) overlap.a else overlap.b
+        catchOne(app, overlap.otherThan(cart))
     }
 }
 
-private fun Round.catchOne(app: App, cart: Entity, thing: Entity) {
+private fun Round.catchOne(app: App, thing: Entity) {
     val world = app.world
-    if (!world.has(cart, Cart)) return
     val gem = world.getOrNull(thing, Gem)
     if (gem != null) {
         gems += gem.points
@@ -92,6 +92,8 @@ private fun Round.catchOne(app: App, cart: Entity, thing: Entity) {
     }
 }
 ```
+
+An `Overlap` has two entities, `a` and `b`. Only the cart looks for anything, so one of them is always the cart. We find it, and `overlap.otherThan(cart)` hands us the other one: the thing that fell in.
 
 `world.getOrNull(thing, Gem)` asks: "does this entity have a `Gem` sticker?" You get the `Gem`, or `null` if it doesn't. (`null` means "nothing here".)
 

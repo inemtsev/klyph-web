@@ -27,11 +27,6 @@ class Rock {
     companion object : ComponentType<Rock>("Rock")
 }
 
-/** Destroys its entity once [seconds] run out. Used for sparkle bursts. */
-class Lifetime(var seconds: Float) {
-    companion object : ComponentType<Lifetime>("Lifetime")
-}
-
 /** Collision layers: the cart looks for falling things, and nothing else. */
 object Layers {
     val CART: CollisionLayers = CollisionLayers.of(1)

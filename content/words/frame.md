@@ -12,7 +12,7 @@ A movie is lots of still pictures shown quickly. Each is a **frame**. Games work
 
 ## In klyph
 
-- `app.time.frame` counts the frames drawn so far.
+- `app.time.frameCount` counts the frames drawn so far.
 - By default klyph waits for your screen's refresh (*vsync*): 60 FPS on most screens, 120 or more on fast ones.
 - Press <kbd>F3</kbd> in any klyph game for the **debug overlay**: FPS, how long each phase took, and a frame-time graph.
 

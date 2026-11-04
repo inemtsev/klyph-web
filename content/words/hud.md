@@ -11,17 +11,17 @@ Fighter-jet pilots see speed and height projected on the glass in front of them,
 
 ## In klyph
 
-Draw it in the `RENDER` phase with `app.canvas`, in **screen space**, so it stays put when the {{< term "camera" >}} moves:
+Draw it in the `RENDER` phase with `app.canvas`. Everything on the canvas is in **screen space** unless you say otherwise, so the HUD stays put when the {{< term "camera" >}} moves:
 
 ```kotlin
 fun drawHud(app: App) {
     val font = app.assets.defaultFont
-    app.canvas.drawText(font, "GEMS ${app.round.gems}", x = 16f, y = 16f, scale = 3f)
-    app.canvas.drawRect(x = 16f, y = 56f, width = 200f, height = 12f, color = Color(0xFF4D6DFFu), space = DrawSpace.SCREEN)
+    app.canvas.drawText(font, "GEMS ${app.round.gems}", x = 16f, y = 16f, scale = 3f, shadow = TextShadow())
+    app.canvas.drawRect(x = 16f, y = 56f, width = 200f, height = 12f, color = Color.RED)
 }
 ```
 
-`drawText` uses screen space by default; `drawSprite` and `drawRect` default to world space, so pass `space = DrawSpace.SCREEN` for those.
+`shadow = TextShadow()` draws a dark copy just under the words, so they're easy to read over a busy background. To draw something that moves with the world instead, such as a health bar over an enemy, pass `space = DrawSpace.WORLD`.
 
 {{< kip tip "Less is more" >}}
 Show only what the player needs **right now**. A big, clear score beats ten tiny numbers.

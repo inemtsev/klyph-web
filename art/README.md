@@ -42,7 +42,8 @@ on top, waving. Bright cheerful palette, crisp pixels, no text, no logos."
 ## Sneak peek (`static/img/gem-miner.png`)
 
 Not generated: it's laid out from the starter's own assets and numbers (`starter/assets`,
-`Tuning.kt`), with the HUD drawn in klyph's built-in 8×8 font.
+`Tuning.kt`), with the HUD drawn in klyph's built-in 8×8 font and its default `TextShadow`
+(2 points down and right, black at 70% opacity).
 
 ## Big Ideas and Game Words (`static/img/ideas/`, `static/img/words/`)
 

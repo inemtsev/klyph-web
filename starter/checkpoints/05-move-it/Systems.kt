@@ -17,7 +17,8 @@ fun fitCamera(app: App) {
 
 /** Slides the cart with A / D or the arrow keys, and keeps it on the screen. */
 fun moveCart(app: App) {
-    val direction = (app.input.axis(Scancode.LEFT, Scancode.RIGHT) + app.input.axis(Scancode.A, Scancode.D)).coerceIn(-1f, 1f)
+    val keys = app.input.keyboard
+    val direction = (keys.axis(Scancode.LEFT, Scancode.RIGHT) + keys.axis(Scancode.A, Scancode.D)).coerceIn(-1f, 1f)
     val dt = app.time.deltaSeconds
     val half = Tuning.CART_WIDTH / 2
     app.world.forEach(Cart, Transform) { _, cart, transform ->

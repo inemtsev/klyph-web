@@ -3,6 +3,7 @@ package gemminer
 import klyph.app.App
 import klyph.app.deltaSeconds
 import klyph.collision.Overlap
+import klyph.collision.otherThan
 import klyph.entity.Entity
 import klyph.entity.Transform
 import klyph.input.axis
@@ -20,7 +21,8 @@ fun fitCamera(app: App) {
 
 /** Slides the cart with A / D or the arrow keys, and keeps it on the screen. */
 fun moveCart(app: App) {
-    val direction = (app.input.axis(Scancode.LEFT, Scancode.RIGHT) + app.input.axis(Scancode.A, Scancode.D)).coerceIn(-1f, 1f)
+    val keys = app.input.keyboard
+    val direction = (keys.axis(Scancode.LEFT, Scancode.RIGHT) + keys.axis(Scancode.A, Scancode.D)).coerceIn(-1f, 1f)
     val dt = app.time.deltaSeconds
     val half = Tuning.CART_WIDTH / 2
     app.world.forEach(Cart, Transform) { _, cart, transform ->
@@ -56,16 +58,16 @@ fun fall(app: App) {
 
 /** Reads the engine's Overlap events: a gem in the cart scores, a rock costs a life. */
 fun Round.catchThings(app: App) {
+    val world = app.world
     app.events.forEach<Overlap> { overlap ->
-        // The engine does not promise which entity of a pair is a, so try both ways round.
-        catchOne(app, overlap.a, overlap.b)
-        catchOne(app, overlap.b, overlap.a)
+        // One of the pair is the cart, but the engine doesn't promise which one.
+        val cart = if (world.has(overlap.a, Cart)) overlap.a else overlap.b
+        catchOne(app, overlap.otherThan(cart))
     }
 }
 
-private fun Round.catchOne(app: App, cart: Entity, thing: Entity) {
+private fun Round.catchOne(app: App, thing: Entity) {
     val world = app.world
-    if (!world.has(cart, Cart)) return
     val gem = world.getOrNull(thing, Gem)
     if (gem != null) {
         gems += gem.points

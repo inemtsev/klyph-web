@@ -17,7 +17,7 @@ Transform(x = 400f, y = 300f, rotation = 0.5f, scaleX = 2f, scaleY = 2f)
 | Field | Meaning |
 |---|---|
 | `x`, `y` | Position in world units. See {{< term "coordinates" >}}. |
-| `rotation` | Turn, in **radians**. A full circle is `2 * PI` (about 6.28). Positive turns clockwise. |
+| `rotation` | Turn, in **radians**. A full circle is `2 * PI` (about 6.28). Positive turns clockwise. Write `90f.degrees` to give it in degrees (`import klyph.math.degrees`). |
 | `scaleX`, `scaleY` | Stretch. `1f` is normal, `2f` is double, `0.5f` is half. |
 
 Change them in a system and the entity moves on the next draw:

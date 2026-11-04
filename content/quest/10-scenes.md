@@ -39,6 +39,7 @@ fun drawCentered(app: App, text: String, y: Float, scale: Float) {
         y = y,
         scale = scale,
         align = TextAlign.CENTER,
+        shadow = TextShadow(),
     )
 }
 ```
@@ -85,7 +86,6 @@ object GameScenes {
         addSystem(Phase.UPDATE) { app -> app.round.dropThings(app) }
         addSystem(Phase.UPDATE) { app -> fall(app) }
         addSystem(Phase.UPDATE) { app -> app.round.catchThings(app) }
-        addSystem(Phase.UPDATE) { app -> expire(app) }
         addSystem(Phase.UPDATE) { app ->
             if (app.round.lives <= 0) app.scenes.push(gameOver)
         }
@@ -170,7 +170,7 @@ When you press <kbd>Space</kbd> on the game over screen, `replace(play)` takes `
 {{< /kip >}}
 
 {{< kip yay "That's the whole game!" >}}
-Your code now matches the finished game you played in step 1. Compare it with `peek/gemminer` if you like. One more step: sharing it with the world.
+Your game now plays exactly like the finished one from step 1. Compare your code with `peek/gemminer` if you like: the last step adds one line to `Main.kt`, and then you share it with the world.
 {{< /kip >}}
 
 {{< try >}}

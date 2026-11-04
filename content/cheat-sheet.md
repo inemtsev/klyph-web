@@ -40,7 +40,7 @@ app.world.has(e, Speed)         // true / false
 ```kotlin
 app.input.keyboard.isDown(Scancode.SPACE)
 app.input.keyboard.isJustPressed(Scancode.SPACE)
-app.input.axis(Scancode.A, Scancode.D)        // -1, 0, 1
+app.input.keyboard.axis(Scancode.A, Scancode.D)   // -1, 0, 1
 app.input.mouse.worldPosition
 app.input.mouse.isJustPressed(MouseButton.LEFT)
 app.input.gamepads.firstOrNull()?.leftStick
@@ -51,7 +51,7 @@ app.input.gamepads.firstOrNull()?.leftStick
 ```kotlin
 val pic = app.assets.texture("hero.png").asRegion()
 val ding = app.assets.sound("ding.wav")
-val song = app.assets.music("music.ogg")
+val song = app.assets.musicTrack("music.ogg")
 
 app.audio.play(ding, volume = 1f, pitch = 1f)
 app.audio.music.play(song)
@@ -69,7 +69,7 @@ val round = app.resources.get<Round>()
 ```kotlin
 add(Collider, Collider(Shape.Circle(16f), layers = CollisionLayers.of(1), mask = CollisionLayers.of(2)))
 
-app.events.forEach<Overlap> { overlap -> /* overlap.a, overlap.b */ }
+app.events.forEach<Overlap> { overlap -> /* overlap.a, overlap.b, overlap.otherThan(mine) */ }
 app.events.publish(MyEvent())
 app.events.any<WindowFocusLost>()
 ```
@@ -77,17 +77,29 @@ app.events.any<WindowFocusLost>()
 ## Particles
 
 ```kotlin
-add(ParticleEmitter, ParticleEmitter(spark, maxParticles = 50).apply {
-    speed = 50f..150f; lifetime = 0.5f..1f; emit(50)
+add(ParticleEmitter, ParticleEmitter(app.assets.disc(8), capacity = 50).apply {
+    speed = 50f..150f
+    lifetime = 500.milliseconds..1.seconds
+    whenEmpty = EmitterEnd.DESTROY   // remove the entity when the burst is over
+    emit(50)
 })
+```
+
+## Timers that clean up
+
+```kotlin
+add(Lifetime, Lifetime(2.seconds))                       // destroy after 2 seconds
+add(Fade, Fade(500.milliseconds, end = FadeEnd.DESTROY)) // fade out, then destroy
 ```
 
 ## Drawing (RENDER only)
 
+Screen space unless you pass `space = DrawSpace.WORLD`:
+
 ```kotlin
-app.canvas.drawText(app.assets.defaultFont, "SCORE 10", x = 16f, y = 16f, scale = 3f)
-app.canvas.drawSprite(region, x = 400f, y = 300f, layer = -10)
-app.canvas.drawRect(x = 0f, y = 0f, width = 100f, height = 10f, color = Color(0xFF0000FFu))
+app.canvas.drawText(app.assets.defaultFont, "SCORE 10", x = 16f, y = 16f, scale = 3f, shadow = TextShadow())
+app.canvas.drawRect(x = 0f, y = 0f, width = 100f, height = 10f, color = Color.RED)
+app.canvas.drawSprite(region, x = 400f, y = 300f, layer = -10, space = DrawSpace.WORLD)
 ```
 
 ## Camera
@@ -95,6 +107,16 @@ app.canvas.drawRect(x = 0f, y = 0f, width = 100f, height = 10f, color = Color(0x
 ```kotlin
 app.camera.lookAt(player.x, player.y)
 app.camera.zoom = 2f
+app.camera.bounds = Rect(x = 0f, y = 0f, width = 4000f, height = 3000f)
+app.camera.follow(player.x, player.y, smoothing = 5f, delta = app.time.delta)
+```
+
+## Angles and time
+
+```kotlin
+transform.rotation = 90f.degrees   // angles are radians; .degrees converts
+Lifetime(1.5.seconds)              // times are Durations
+app.time.deltaSeconds              // except this one: a Float, for speed × time
 ```
 
 ## Scenes
@@ -117,5 +139,8 @@ app.scenes.pop()          // back to play
 | `./gradlew run` | Build and play (debug). |
 | `./gradlew runRelease` | Build and play (fast release build). |
 | `./gradlew distribute` | Zip the game for sharing, in `build/distributions/`. |
+| `./gradlew run -Pklyph.screenshot=120:shot.png` | Save frame 120 as a picture (needs `AppConfig.fromEnvironment`). |
 
 On Windows, use `.\gradlew` instead of `./gradlew`.
+
+Every class and function, with examples, is in the official [API reference](https://inemtsev.github.io/klyph/).

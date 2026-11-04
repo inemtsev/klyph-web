@@ -30,6 +30,13 @@ hugo server
 
 and open <http://localhost:1313/klyph-web/>.
 
+The starter kit download in Quest step 1 is built by CI, not by Hugo. To try it locally, build into
+a folder and zip the starter next to it:
+
+```bash
+hugo -d /tmp/klyph-web && tools/zip-starter.sh /tmp/klyph-web
+```
+
 ## Publish it
 
 `.github/workflows/pages.yml` builds the site on every push and pull request and publishes `main`
@@ -39,7 +46,9 @@ Source: GitHub Actions**. The site then lives at <https://inemtsev.github.io/kly
 For a custom domain, change `baseURL` in `hugo.toml` and add the domain in the same settings page.
 
 The build runs with `--panicOnWarning`, so a deprecated setting or a link to a missing glossary page
-fails it.
+fails it. CI also rebuilds the starter checkpoints and fails if they changed, then zips `starter/`
+into the site as `downloads/gem-miner-starter.zip`, so readers can download it even while this
+repository is private.
 
 ## Layout
 
@@ -54,6 +63,8 @@ fails it.
 | `static/img/` | Mascot poses, concept pictures, glossary icons, the hero. See [`art/README.md`](art/README.md). |
 | `static/fonts/` | Self-hosted fonts (Jersey 10, Lexend, JetBrains Mono, all SIL Open Font License), so the site makes no third-party requests. |
 | `starter/` | The finished Gem Miner as a klyph Gradle project, with checkpoints. See [`starter/README.md`](starter/README.md). |
+| `tools/make-checkpoints.py` | Cuts `starter/checkpoints/` out of the finished game. Run it after changing the game. |
+| `tools/zip-starter.sh` | Zips `starter/` into a built site as the starter kit download. |
 
 ## Writing a page
 
@@ -88,7 +99,8 @@ Shortcodes:
 | `{{< tabs >}}{{< tab "Windows" >}}…{{< /tab >}}{{< /tabs >}}` | Tabs. The reader's choice is remembered across the site. |
 | `{{< phases "UPDATE" >}}` | The frame loop diagram, with phases lit up (comma separated). |
 | `{{< scenestack "pause" "play" >}}` | The scene stack diagram, top scene first. |
-| `{{< checkpoint "05-move-it" >}}` | A link to a folder in `starter/checkpoints/`. |
+| `{{< checkpoint "05-move-it" >}}` | Points to a folder in the starter kit's `checkpoints/`. |
+| `{{< starter-zip >}}` | The starter kit download button. |
 | `{{< keys "A" "D" >}}` | Keyboard keys. |
 
 Code fences can take a file name and highlighted lines: ` ```kotlin {title="Main.kt" hl_lines="4 7-9"} `.
@@ -101,3 +113,5 @@ House style, to keep it friendly for younger readers and for readers with ADHD:
 - Link every general game word to Game Words the first time it appears on a page.
 - No references to other games by name and none of their art: keep the blocky, crafty vibe original.
 - Code on the pages must match the code in `starter/`. If you change one, change the other.
+- Everything matches klyph's version in `hugo.toml` (`params.version`, now 1.0.0). Check the
+  engine's [CHANGELOG](https://github.com/inemtsev/klyph/blob/main/CHANGELOG.md) when it moves.

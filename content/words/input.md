@@ -19,7 +19,7 @@ keys.isJustPressed(Scancode.SPACE)   // went down this frame: jump, shoot, selec
 keys.isJustReleased(Scancode.SPACE)  // came up this frame
 
 // -1, 0 or 1, for moving left and right:
-val dx = app.input.axis(Scancode.A, Scancode.D)
+val dx = keys.axis(Scancode.A, Scancode.D)   // import klyph.input.axis
 
 // The mouse:
 val mouse = app.input.mouse
@@ -27,12 +27,13 @@ mouse.worldPosition                     // where it points in the world
 mouse.isJustPressed(MouseButton.LEFT)   // clicked
 
 // Gamepads:
-for (pad in app.input.gamepads) {
-    val stickX = pad.leftStick.x               // -1 (left) to 1 (right)
-    if (pad.isJustPressed(GamepadButton.SOUTH)) jump()   // A on Xbox, ✕ on PlayStation
-}
+val pad = app.input.gamepads.firstOrNull()        // null when none is plugged in
+val stickX = pad?.leftStick?.x ?: 0f              // -1 (left) to 1 (right)
+if (app.input.gamepads.isJustPressed(GamepadButton.SOUTH)) jump()   // any pad: A on Xbox, ✕ on PlayStation (import klyph.input.isJustPressed)
 ```
 
 {{< kip tip "Scancodes are positions" >}}
 `Scancode.W` means "the key where W is on a US keyboard". On a French keyboard, that's Z. That's what you want for {{< keys "W" "A" "S" "D" >}} movement: the keys stay in the same *place* for everyone.
+
+For a key you name by its **letter**, like "press <kbd>M</kbd> for music", use `KeyCode.M` instead: it follows the player's keyboard layout.
 {{< /kip >}}
