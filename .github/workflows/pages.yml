@@ -46,7 +46,7 @@ jobs:
       - name: Zip the starter kit
         run: tools/zip-starter.sh public
 
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         with:
           path: public
