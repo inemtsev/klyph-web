@@ -32,6 +32,10 @@ val stickX = pad?.leftStick?.x ?: 0f              // -1 (left) to 1 (right)
 if (app.input.gamepads.isJustPressed(GamepadButton.SOUTH)) jump()   // any pad: A on Xbox, ✕ on PlayStation (import klyph.input.isJustPressed)
 ```
 
+{{< kip think "Just pressed in FIXED_UPDATE" >}}
+In `FIXED_UPDATE`, "just" means "since the last step", not "this frame" (since klyph 1.1). The first step after a press sees it and no other step does, so a jump read there happens exactly once. A tap shorter than a step reads as both just pressed and just released in that step. More on the {{< term "fixed" "fixed timestep" >}} page.
+{{< /kip >}}
+
 {{< kip tip "Scancodes are positions" >}}
 `Scancode.W` means "the key where W is on a US keyboard". On a French keyboard, that's Z. That's what you want for {{< keys "W" "A" "S" "D" >}} movement: the keys stay in the same *place* for everyone.
 

@@ -39,6 +39,18 @@ val m = app.input.mouse.worldPosition
 val hits = app.collisions.overlapping(Shape.Circle(30f), x = m.x, y = m.y, mask = Layers.FALLING)
 ```
 
+## Bigger entity, bigger hitbox
+
+The {{< term "transform" >}}'s scale scales the collider too: a box by the x and y scale, a circle's radius by the x scale alone. If the scale is only there to animate the picture, like a squash or a spinning coin, switch that off (since klyph 1.1) and the hitbox keeps its size:
+
+```kotlin
+add(Collider, Collider(Shape.Circle(12f)).apply { scalesWithTransform = false })
+```
+
+## Walls and floors
+
+A collider only **reports** touches. Nothing stops anything. To make a box a wall or a floor that characters stand on, add a `Solid` next to it. That's how you build a {{< term "platformer" >}}.
+
 {{< kip tip "Make hitboxes a bit smaller" >}}
 A hitbox a little smaller than the picture feels **fair**. Players get annoyed when a rock "hits" them without visibly touching.
 {{< /kip >}}

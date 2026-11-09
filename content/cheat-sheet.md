@@ -33,6 +33,9 @@ app.commands.destroy(e)
 app.world.forEach(Speed, Transform) { entity, speed, transform -> transform.x += speed.value * app.time.deltaSeconds }
 app.world.getOrNull(e, Speed)   // Speed or null
 app.world.has(e, Speed)         // true / false
+
+add(Velocity, Velocity(dx = 0f, dy = -40f))   // klyph moves it every fixed step (1.1)
+app.time.fixedStepCount                        // FIXED_UPDATE steps so far (1.1)
 ```
 
 ## Input
@@ -45,6 +48,8 @@ app.input.mouse.worldPosition
 app.input.mouse.isJustPressed(MouseButton.LEFT)
 app.input.gamepads.firstOrNull()?.leftStick
 ```
+
+In `FIXED_UPDATE`, `isJustPressed` and `isJustReleased` mean "since the last step": each press reaches exactly one step (since 1.1). See {{< term "fixed" "fixed timestep" >}}.
 
 ## Assets and sound
 
@@ -72,6 +77,9 @@ add(Collider, Collider(Shape.Circle(16f), layers = CollisionLayers.of(1), mask =
 app.events.forEach<Overlap> { overlap -> /* overlap.a, overlap.b, overlap.otherThan(mine) */ }
 app.events.publish(MyEvent())
 app.events.any<WindowFocusLost>()
+
+// First solid a moving box would touch, or null. Works in FIXED_UPDATE. (1.1)
+app.collisions.sweepBox(x = 100f, y = 300f, width = 24f, height = 40f, dx = 0f, dy = 200f)
 ```
 
 ## Particles
@@ -83,6 +91,9 @@ add(ParticleEmitter, ParticleEmitter(app.assets.disc(8), capacity = 50).apply {
     whenEmpty = EmitterEnd.DESTROY   // remove the entity when the burst is over
     emit(50)
 })
+
+// One burst of 24, then the entity is gone. (1.1)
+app.commands.spawnBurst(x, y, ParticleEmitter.burst(spark, count = 24))
 ```
 
 ## Timers that clean up
@@ -91,6 +102,26 @@ add(ParticleEmitter, ParticleEmitter(app.assets.disc(8), capacity = 50).apply {
 add(Lifetime, Lifetime(2.seconds))                       // destroy after 2 seconds
 add(Fade, Fade(500.milliseconds, end = FadeEnd.DESTROY)) // fade out, then destroy
 ```
+
+## Animation
+
+```kotlin
+app.world.get(e, SpriteAnimation).speed = 2f   // twice as fast; 0 holds the frame (1.1)
+```
+
+## Platformers (1.1)
+
+```kotlin
+add(Collider, Collider(Shape.Box(width = 900f, height = 600f)))
+add(Solid, Solid())                                      // a wall or floor
+add(Solid, Solid(passable = Passable.FROM_BELOW))       // or: a one-way ledge
+
+add(KinematicBody, KinematicBody(dx = 0f, dy = 0f))     // stops at solids
+body.isOnFloor; body.isOnWall; body.isOnCeiling          // what the last move touched
+body.dropThrough()                                       // fall through the ledge below
+```
+
+You add the gravity yourself, in `FIXED_UPDATE`. See {{< term "platformer" >}}.
 
 ## Drawing (RENDER only)
 
