@@ -39,4 +39,4 @@ or SDL3 installed. `./gradlew run -Pklyph.screenshot=120:shot.png` saves frame 1
 
 To catch up to a checkpoint, copy its files over the ones in `src/nativeMain/kotlin/gemminer/`.
 
-Built for klyph 1.0.0. Code written for 1.0 keeps working in every 1.x release.
+Built for klyph 1.1.0. Code written for 1.0 keeps working in every 1.x release.

@@ -60,14 +60,14 @@ Now run it, like last time:
 Open `build.gradle.kts`. The whole build is three lines:
 
 ```kotlin {title="build.gradle.kts"}
-plugins { id("com.eventslooped.klyph") version "1.0.0" }
+plugins { id("com.eventslooped.klyph") version "1.1.0" }
 klyph { entryPoint = "gemminer.main" }
-kotlin { sourceSets.nativeMain.dependencies { implementation("com.eventslooped.klyph:klyph:1.0.0") } }
+kotlin { sourceSets.nativeMain.dependencies { implementation("com.eventslooped.klyph:klyph:1.1.0") } }
 ```
 
 1. Use the klyph plugin.
 2. The game starts at the function `main` in the package `gemminer`. That's your file!
-3. Your code uses the klyph engine, version 1.0.0.
+3. Your code uses the klyph engine, version 1.1.0.
 
 {{< nerd "What's `u` at the end of the color?" >}}
 The `u` makes the number an **unsigned** integer (`UInt`). It means "no minus numbers allowed", which is right for colors. Without it, Kotlin would complain that `0x2B1D14FF` is too big for a normal `Int`.
