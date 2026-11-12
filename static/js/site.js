@@ -231,7 +231,9 @@
       var block = button.closest(".code");
       var code = block && block.querySelector("pre code");
       if (!code || !navigator.clipboard) return;
-      navigator.clipboard.writeText(code.innerText.replace(/\n$/, "")).then(function () {
+      // textContent, not innerText: the highlighter makes every line a flex box, and innerText
+      // adds a line break after each box on top of the line's own newline.
+      navigator.clipboard.writeText(code.textContent.replace(/\n$/, "")).then(function () {
         button.textContent = "Copied!";
         button.classList.add("is-copied");
         setTimeout(function () { button.textContent = "Copy"; button.classList.remove("is-copied"); }, 1500);
