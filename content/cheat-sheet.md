@@ -123,6 +123,28 @@ body.dropThrough()                                       // fall through the led
 
 You add the gravity yourself, in `FIXED_UPDATE`. See {{< term "platformer" >}}.
 
+## Scrolling (1.2)
+
+```kotlin
+add(ParallaxLayer, ParallaxLayer(0.5f, repeatX = sprite.width))   // far hills: half speed, copies fill the view
+add(ParallaxLayer, ParallaxLayer(0f))                              // a sky or a moon: stuck to the screen
+
+val bricks = app.assets.texture("bricks.png", address = SamplerAddress.REPEAT)
+add(Sprite, Sprite(bricks.asRegion(), width = 900f, height = 600f, tileWidth = 32f, tileHeight = 32f))   // a tiled floor
+add(Sprite, Sprite(region, originY = 1f))                          // the Transform sits at the feet (0.5 is the middle)
+
+// A sky in one call, under everything the world draws (RENDER only).
+app.canvas.drawRect(x = 0f, y = 0f, width = 800f, height = 600f, color = Color.CYAN, space = DrawSpace.BACKGROUND)
+
+app.camera.offsetX = 6f; app.camera.offsetY = -4f                  // shake: set every frame, then back to 0f
+app.camera.follow(app.drawnPositionOf(player), smoothing = 5f, delta = app.time.delta)   // follow where the player is drawn
+app.world.snapInterpolation(player)                                // call after moving the Transform: draws it at the new place at once
+play.elapsed                                                       // a Duration: how long the scene has been on top
+play.elapsedSeconds                                                // the same as a Float. A pause scene stops both
+```
+
+New imports: `klyph.app.drawnPositionOf`, `klyph.entity.snapInterpolation`, `klyph.platform.SamplerAddress` and `klyph.scene.elapsedSeconds`. See {{< term "parallax" >}} and {{< term "camera" >}}.
+
 ## Drawing (RENDER only)
 
 Screen space unless you pass `space = DrawSpace.WORLD`:
@@ -139,7 +161,7 @@ app.canvas.drawSprite(region, x = 400f, y = 300f, layer = -10, space = DrawSpace
 app.camera.lookAt(player.x, player.y)
 app.camera.zoom = 2f
 app.camera.bounds = Rect(x = 0f, y = 0f, width = 4000f, height = 3000f)
-app.camera.follow(player.x, player.y, smoothing = 5f, delta = app.time.delta)
+app.camera.follow(player.x, player.y, smoothing = 5f, delta = app.time.delta)   // Interpolated player? Use app.drawnPositionOf(player) (1.2)
 ```
 
 ## Angles and time

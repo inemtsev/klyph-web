@@ -29,8 +29,16 @@ camera.follow(player.x, player.y, smoothing = 5f, delta = app.time.delta)
 
 A bigger `smoothing` catches up faster. (`Rect` is `import klyph.math.Rect`, and `follow` is `import klyph.render.follow`.)
 
+If your player has the `Interpolated` component (see {{< term "fixed" "fixed timestep" >}}), its picture is drawn a little behind its `Transform`. Follow where the player is **drawn**, so the camera and the picture stay together:
+
+```kotlin
+camera.follow(app.drawnPositionOf(player), smoothing = 5f, delta = app.time.delta)   // player is the entity
+```
+
+(`drawnPositionOf` is `import klyph.app.drawnPositionOf`. It also works for an entity without `Interpolated`.)
+
 `camera.visibleWidth` and `visibleHeight` tell you how much of the world fits in the window, and `app.input.mouse.worldPosition` tells you where the mouse is *in the world*, with the camera taken into account.
 
 {{< kip tip "Screen shake" >}}
-Nudge `camera.x` and `camera.y` by a few random units for a quarter of a second when something big happens. Instant drama!
+When something big happens, set `camera.offsetX` and `camera.offsetY` to a few random units on every frame for a quarter of a second, then set both back to `0f`. They sit on top of `follow` and `bounds`, so the camera keeps following while it shakes (new in klyph 1.2). Instant drama!
 {{< /kip >}}
