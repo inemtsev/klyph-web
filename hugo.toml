@@ -12,7 +12,7 @@ disableKinds = ["taxonomy", "term", "RSS"]
   apiReference = "https://inemtsev.github.io/klyph/"
   template = "https://github.com/inemtsev/klyph-template"
   # The klyph version the site and the starter teach.
-  version = "1.1.0"
+  version = "1.2.0"
 
 [markup]
   [markup.goldmark.renderer]

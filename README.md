@@ -123,5 +123,5 @@ House style, to keep it friendly for younger readers and for readers with ADHD:
 - Link every general game word to Game Words the first time it appears on a page.
 - No references to other games by name and none of their art: keep the blocky, crafty vibe original.
 - Code on the pages must match the code in `starter/`. If you change one, change the other.
-- Everything matches klyph's version in `hugo.toml` (`params.version`, now 1.0.0). Check the
+- Everything matches klyph's version in `hugo.toml` (`params.version`, now 1.2.0). Check the
   engine's [CHANGELOG](https://github.com/inemtsev/klyph/blob/main/CHANGELOG.md) when it moves.
